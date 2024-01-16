@@ -1,7 +1,16 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-
+import { AuthContext } from "../../../Providers/AuthProvider";
+import userImg from '../../../assets/user.png';
 
 const Navbar = () => {
+    const { user, logOut } = useContext(AuthContext);
+    console.log('user', user)
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.error(error))
+    }
     const links = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/addArticles">Add Articles</NavLink></li>
@@ -10,7 +19,7 @@ const Navbar = () => {
         <li><NavLink to="/dashboard">Dashboard</NavLink></li>
         <li><NavLink to="/myArticles">My Articles</NavLink></li>
         <li><NavLink to="/premiumArticles">Premium Articles</NavLink></li>
-        <li>
+        {/* <li>
             <details>
                 <summary>Parent</summary>
                 <ul className="p-2">
@@ -18,11 +27,11 @@ const Navbar = () => {
                     <li><a>Submenu 2</a></li>
                 </ul>
             </details>
-        </li>
+        </li> */}
     </>
     return (
         <div>
-            <div className="navbar fixed z-10 bg-opacity-30 bg-black text-white">
+            <div className="navbar fixed z-10 bg-opacity-30 bg-black text-white max-w-screen-xl mx-auto">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -39,8 +48,27 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
+                <div>
+                    {
+                        user ? <>
+                            <button onClick={handleLogOut}>LogOut</button>
+                        </> : <>
+                            <button><NavLink to="/login">Login</NavLink></button>
+                        </>
+                    }
+                </div>
                 <div className="navbar-end">
-                    <button><NavLink to="/login">Login</NavLink></button>
+                    <div className="text-sm">
+                        <p className="text-right">{user?.displayName}</p>
+                        <p>{user?.email}</p>
+                    </div>
+                    <div className="w-14 ms-3">
+                        {user ?
+                            <img className="rounded-full" title={user?.email} src={user?.photoURL} alt="" />
+                            :
+                            <img title={user?.email} src={userImg} alt="" />
+                        }
+                    </div>
                 </div>
             </div>
         </div>

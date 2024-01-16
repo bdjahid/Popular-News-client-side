@@ -1,13 +1,17 @@
 
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
 
 const SignUp = () => {
-    const { createUser } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const from = location.state?.from?.pathname || "/";
+    const { createUser, updateUserProfile } = useContext(AuthContext)
     const {
+        reset,
         register,
         handleSubmit,
         formState: { errors },
@@ -20,6 +24,19 @@ const SignUp = () => {
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser)
+                updateUserProfile(data.name, data.photo)
+                    .then(() => {
+                        console.log('user profile info update')
+                        reset()
+                        navigate(from, { replace: true })
+                        Swal.fire({
+                            title: 'success!',
+                            text: 'sign up successfully',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                    })
+                    .catch(error => console.log(error))
             })
     }
 
