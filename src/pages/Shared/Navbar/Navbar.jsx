@@ -10,7 +10,6 @@ const Navbar = () => {
         <li><NavLink to="/dashboard">Dashboard</NavLink></li>
         <li><NavLink to="/myArticles">My Articles</NavLink></li>
         <li><NavLink to="/premiumArticles">Premium Articles</NavLink></li>
-        <li><NavLink to="/">User Photo</NavLink></li>
         <li>
             <details>
                 <summary>Parent</summary>
@@ -41,7 +40,7 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    {/* <a className="btn">Button</a> */}
+                    <button><NavLink to="/login">Login</NavLink></button>
                 </div>
             </div>
         </div>

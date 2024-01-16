@@ -8,6 +8,8 @@ import MyArticles from './../pages/Home/MyArticles/MyArticles';
 import PremiumArticles from './../pages/Home/PremiumArticles/PremiumArticles';
 import Subscription from './../pages/Home/Subscription/Subscription';
 import Dashboard from './../pages/Home/Dashboard/Dashboard';
+import Login from "../pages/Home/Login/Login";
+import SignUp from './../pages/Home/SignUp/SignUp';
 
 
 
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
             {
                 path: "/subscription",
                 element: <Subscription></Subscription>,
+            },
+            {
+                path: "/login",
+                element: <Login></Login>,
+            },
+            {
+                path: "/signup",
+                element: <SignUp></SignUp>,
             },
             {
                 path: "/dashboard",
