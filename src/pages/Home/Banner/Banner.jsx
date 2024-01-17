@@ -12,6 +12,7 @@ const Banner = () => {
         <Carousel>
             <div className="h-48">
                 <img src={img1} />
+                <button className="text-5xl text-red-900">Explore</button>
             </div>
             <div>
                 <img src={img2} />
