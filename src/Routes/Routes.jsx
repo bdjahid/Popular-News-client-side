@@ -10,6 +10,7 @@ import Subscription from './../pages/Home/Subscription/Subscription';
 import Dashboard from './../pages/Home/Dashboard/Dashboard';
 import Login from "../pages/Home/Login/Login";
 import SignUp from './../pages/Home/SignUp/SignUp';
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 
 
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Main></Main>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: "/",
