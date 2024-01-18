@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../../Providers/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 
 const SignUp = () => {
+    const axiosPublic = useAxiosPublic();
     const navigate = useNavigate()
     const from = location.state?.from?.pathname || "/";
     const { createUser, updateUserProfile } = useContext(AuthContext)
@@ -27,14 +29,25 @@ const SignUp = () => {
                 updateUserProfile(data.name, data.photo)
                     .then(() => {
                         console.log('user profile info update')
-                        reset()
-                        navigate(from, { replace: true })
-                        Swal.fire({
-                            title: 'success!',
-                            text: 'sign up successfully',
-                            icon: 'success',
-                            confirmButtonText: 'Ok'
-                        })
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('user added to the database')
+                                    reset()
+                                    // navigate(from, { replace: true })
+                                    Swal.fire({
+                                        title: 'success!',
+                                        text: 'sign up successfully',
+                                        icon: 'success',
+                                        confirmButtonText: 'Ok'
+                                    })
+                                    navigate(from, { replace: true })
+                                }
+                            })
                     })
                     .catch(error => console.log(error))
             })

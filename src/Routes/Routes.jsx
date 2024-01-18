@@ -2,16 +2,23 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
 import Home from "../pages/Home/Home/Home";
 import AddArticles from './../pages/Home/AddArticles/AddArticles';
-import AllArticles from './../pages/Home/AllArticles/AllArticles';
-import AllPublisher from './../pages/Home/AllPublisher/AllPublisher';
 import MyArticles from './../pages/Home/MyArticles/MyArticles';
 import PremiumArticles from './../pages/Home/PremiumArticles/PremiumArticles';
 import Subscription from './../pages/Home/Subscription/Subscription';
-import Dashboard from './../pages/Home/Dashboard/Dashboard';
 import Login from "../pages/Home/Login/Login";
 import SignUp from './../pages/Home/SignUp/SignUp';
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Details from "../pages/Home/Details/Details";
+import Dashboard from "../Layout/Dashboard/Dashboard";
+// import AllUser from "../pages/DashBoard/AllUser/AllUser";
+import AllArticle from "../pages/Dashboard/AllArticle/AllArticle";
+import AddPublisher from "../pages/Dashboard/AddPublisher/AddPublisher";
+import AllPublisher from './../pages/Home/AllPublisher/AllPublisher';
+import AllArticles from './../pages/Home/AllArticles/AllArticles';
+import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
+
+
+
 
 
 
@@ -26,12 +33,12 @@ const router = createBrowserRouter([
                 element: <Home></Home>,
             },
             {
-                path: "/addArticles",
-                element: <AddArticles></AddArticles>,
-            },
-            {
                 path: "/allArticles",
                 element: <AllArticles></AllArticles>,
+            },
+            {
+                path: "/addArticles",
+                element: <AddArticles></AddArticles>,
             },
             {
                 path: "/details/:id",
@@ -39,12 +46,12 @@ const router = createBrowserRouter([
                 loader: ({ params }) => fetch(`http://localhost:5000/news/${params.id}`)
             },
             {
-                path: "/allPublisher",
-                element: <AllPublisher></AllPublisher>,
-            },
-            {
                 path: "/myArticles",
                 element: <MyArticles></MyArticles>,
+            },
+            {
+                path: "/allPublisher",
+                element: <AllPublisher></AllPublisher>,
             },
             {
                 path: "/premiumArticles",
@@ -62,12 +69,31 @@ const router = createBrowserRouter([
                 path: "/signup",
                 element: <SignUp></SignUp>,
             },
-            {
-                path: "/dashboard",
-                element: <Dashboard></Dashboard>,
-            },
         ]
-
     },
+
+    {
+        path: 'dashboard',
+        element: <Dashboard></Dashboard>,
+        children: [
+            // {
+            //     path: 'allUser',
+            //     element: <AllUser></AllUser>
+            // },
+            {
+                path: 'allArticles',
+                element: <AllArticle></AllArticle>
+            },
+            {
+                path: 'myProfile',
+                element: <MyProfile></MyProfile>
+            },
+            {
+                path: 'addPublisher',
+                element: <AddPublisher></AddPublisher>
+            }
+        ]
+    }
+
 ]);
 export default router;
