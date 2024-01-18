@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import '../AllArticles/AllArticles.css'
+import '../AllArticles/AllArticles.css';
 
 const AddArticles = () => {
     const { register, handleSubmit } = useForm();
