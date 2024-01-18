@@ -11,6 +11,7 @@ import Dashboard from './../pages/Home/Dashboard/Dashboard';
 import Login from "../pages/Home/Login/Login";
 import SignUp from './../pages/Home/SignUp/SignUp';
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import Details from "../pages/Home/Details/Details";
 
 
 
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
             {
                 path: "/allArticles",
                 element: <AllArticles></AllArticles>,
+            },
+            {
+                path: "/details/:id",
+                element: <Details></Details>,
+                loader: ({ params }) => fetch(`http://localhost:5000/news/${params.id}`)
             },
             {
                 path: "/allPublisher",
