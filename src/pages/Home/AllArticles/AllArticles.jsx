@@ -4,6 +4,8 @@ import './AllArticles.css'
 import NewsCard from './NewsCard';
 import { useEffect, useState } from 'react';
 
+
+
 const AllArticles = () => {
     const [news, setNews] = useState([]);
     const [search, setSearch] = useState('')

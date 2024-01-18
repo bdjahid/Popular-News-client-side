@@ -1,16 +1,54 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import '../AllArticles/AllArticles.css';
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useAxios from "../../../hooks/useAxios";
+import Swal from "sweetalert2";
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
 
 const AddArticles = () => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
+    const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxios();
 
 
     const onSubmit = async (data) => {
         console.log(data)
+        // image upload
+        const imageFile = { image: data.image[0] }
+        const res = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        console.log(res.data)
+        if (res.data.success) {
+            const newsItem = {
+                description: data.description,
+                publisher: data.publisher,
+                tags: data.tags,
+                title: data.title,
+                image: res.data.data.display_url
+            }
+            const newsRes = await axiosSecure.post('/news', newsItem);
+            console.log(newsRes.data)
+            if (newsRes.data.insertedId) {
+                // show success popup
+                reset()
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${data.title} added to the menu`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }
 
     }
-
     return (
         <div>
             <div className="hero min-h-screen imgBg">
@@ -44,10 +82,15 @@ const AddArticles = () => {
                             <select defaultValue="default"  {...register("tags")}
                                 className="select select-bordered w-full">
                                 <option value="default" disabled>Select ....</option>
-                                <option value="salad">Salad</option>
-                                <option value="soup">Soup</option>
-                                <option value="drinks">Drinks</option>
-                                <option value="dessert">dessert</option>
+                                <option value="AI">AI</option>
+                                <option value="Education">Education</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Politics">Politics</option>
+                                <option value="Play">Play</option>
+                                <option value="Robot">Robot</option>
+                                <option value="Games">Games</option>
+                                <option value="Football">Football</option>
+                                <option value="Creative">Creative</option>
                             </select>
                         </div>
                         {/* Publisher */}
@@ -58,10 +101,20 @@ const AddArticles = () => {
                             <select defaultValue="default"  {...register("publisher")}
                                 className="select select-bordered w-full">
                                 <option value="default" disabled>Publisher ....</option>
-                                <option value="salad">Salad</option>
-                                <option value="soup">Soup</option>
-                                <option value="drinks">Drinks</option>
-                                <option value="dessert">dessert</option>
+                                <option value="Jimmy Dane">Jimmy Dane</option>
+                                <option value="Jennifer Wood">Jennifer Wood</option>
+                                <option value="system">system</option>
+                                <option value="Robot">Robot</option>
+                                <option value="Theo Minh Châu">Theo Minh Châu</option>
+                                <option value="Ukrainska Pravda">Ukrainska Pravda</option>
+                                <option value="Daniel Deangelo">Daniel Deangelo</option>
+                                <option value="Reuters">Reuters</option>
+                                <option value="John Pike">John Pike</option>
+                                <option value="MarketScreener">MarketScreener</option>
+                                <option value="RTTNews">RTTNews</option>
+                                <option value="Kumar Natasha">Kumar Natasha</option>
+                                <option value="The Philadelphia Inquirer">The Philadelphia Inquirer</option>
+                                <option value="Presstv">Presstv</option>
                             </select>
                         </div>
                     </div>
