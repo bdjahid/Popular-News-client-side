@@ -1,7 +1,21 @@
 import { Link } from 'react-router-dom';
 import './AllArticles.css'
 
+import NewsCard from './NewsCard';
+import { useEffect, useState } from 'react';
+
 const AllArticles = () => {
+    const [news, setNews] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/news')
+            .then(res => res.json())
+            .then(data => {
+                setNews(data)
+
+            })
+    }, [])
+
 
     const handleSearch = (event) => {
         event.preventDefault();
@@ -62,6 +76,14 @@ const AllArticles = () => {
                         </div>
                     </form>
                 </div>
+            </div>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-10 mx-20'>
+                {
+                    news.map(paper => <NewsCard
+                        key={paper._id}
+                        paper={paper}
+                    ></NewsCard>)
+                }
             </div>
         </div>
     );
