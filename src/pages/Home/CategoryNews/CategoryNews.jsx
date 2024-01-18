@@ -19,7 +19,17 @@ import img4 from '../../../assets/category/wildcard-1-600x400.jpg';
 import img5 from '../../../assets/category/img9.webp';
 import img6 from '../../../assets/category/img11.jpg';
 
+
 const CategoryNews = () => {
+    // const [news, setNews] = useState([]);
+
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/news')
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             setNews(data)
+    //         })
+    // }, [])
     return (
         <div>
             <div className='text-center my-10 font-bold'>

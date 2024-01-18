@@ -6,15 +6,15 @@ import { useEffect, useState } from 'react';
 
 const AllArticles = () => {
     const [news, setNews] = useState([]);
-
+    const [search, setSearch] = useState('')
     useEffect(() => {
-        fetch('http://localhost:5000/news')
+        fetch(`http://localhost:5000/news?search=${search}`)
             .then(res => res.json())
             .then(data => {
                 setNews(data)
 
             })
-    }, [])
+    }, [search])
 
 
     const handleSearch = (event) => {
@@ -22,6 +22,7 @@ const AllArticles = () => {
         const form = event.target;
         const item = form.search.value;
         console.log(item)
+        setSearch(item)
     }
     return (
         <div>
