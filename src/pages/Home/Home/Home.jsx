@@ -4,6 +4,7 @@ import Banner from "../Banner/Banner";
 import CategoryNews from "../CategoryNews/CategoryNews";
 import Contact from "../Contact/Contact";
 import Paralax from "../Paralax/Paralax";
+import Plans from "../Plans/Plans";
 import Statistic from "../Statistic/Statistic";
 
 
@@ -16,6 +17,7 @@ const Home = () => {
             <Paralax></Paralax>
             <Statistic></Statistic>
             <AllPublisher></AllPublisher>
+            <Plans></Plans>
             <Contact></Contact>
         </div>
     );
