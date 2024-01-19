@@ -10,12 +10,12 @@ import SignUp from './../pages/Home/SignUp/SignUp';
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Details from "../pages/Home/Details/Details";
 import Dashboard from "../Layout/Dashboard/Dashboard";
-// import AllUser from "../pages/DashBoard/AllUser/AllUser";
 import AllArticle from "../pages/Dashboard/AllArticle/AllArticle";
 import AddPublisher from "../pages/Dashboard/AddPublisher/AddPublisher";
 import AllPublisher from './../pages/Home/AllPublisher/AllPublisher';
 import AllArticles from './../pages/Home/AllArticles/AllArticles';
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
+import AllUser from "../pages/Dashboard/AllUser/Alluser";
 
 
 
@@ -35,6 +35,7 @@ const router = createBrowserRouter([
             {
                 path: "/allArticles",
                 element: <AllArticles></AllArticles>,
+                loader: () => fetch('http://localhost:5000/newsCount')
             },
             {
                 path: "/addArticles",
@@ -76,10 +77,10 @@ const router = createBrowserRouter([
         path: 'dashboard',
         element: <Dashboard></Dashboard>,
         children: [
-            // {
-            //     path: 'allUser',
-            //     element: <AllUser></AllUser>
-            // },
+            {
+                path: 'allUser',
+                element: <AllUser></AllUser>
+            },
             {
                 path: 'allArticles',
                 element: <AllArticle></AllArticle>

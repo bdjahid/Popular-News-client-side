@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import './AllArticles.css'
 
 import NewsCard from './NewsCard';
@@ -15,26 +15,25 @@ const AllArticles = () => {
     const [itemPerPage, setItemPerPage] = useState(10);
 
     const [currentPage, setCurrentPage] = useState(0)
-    const [count, setCount] = useState(0)
+    const { count } = useLoaderData()
 
     const numberOfPages = Math.ceil(count / itemPerPage);
 
     const pages = [...Array(numberOfPages).keys()];
 
-    useEffect(() => {
-        fetch('http://localhost:5000/newsCount')
-            .then(res => res.json())
-            .then(data => setCount(data.count))
-    }, [])
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/newsCount')
+    //         .then(res => res.json())
+    //         .then(data => setCount(data.count))
+    // }, [])
 
     useEffect(() => {
-        fetch(`http://localhost:5000/news?search=${search}`)
+        fetch(`http://localhost:5000/news?search=${search}&page=${currentPage}&size=${itemPerPage}`)
             .then(res => res.json())
             .then(data => {
                 setNews(data)
-
             })
-    }, [search])
+    }, [search, currentPage, itemPerPage])
 
 
     const handleSearch = (event) => {
@@ -46,16 +45,14 @@ const AllArticles = () => {
     }
 
 
-
-    const handleItemsPerPages = (e) => {
-        console.log(e.target.value)
+    const handleItemsPerPages = e => {
         const val = parseInt(e.target.value)
         setItemPerPage(val)
         setCurrentPage(0)
     }
 
     const handlePrevPage = () => {
-        if (currentPage < 0) {
+        if (currentPage > 0) {
             setCurrentPage(currentPage - 1)
         }
     }
@@ -80,14 +77,19 @@ const AllArticles = () => {
             </div>
             <div className='flex justify-around my-10'>
                 <div>
-                    <form onSubmit={handleSearch}>
+                    <form>
                         <div className="flex justify-center">
-                            <select className="select input input-bordered w-full max-w-xs">
-                                <option disabled selected>What is the best TV show?</option>
-                                <option>Game of Thrones</option>
-                                <option>Lost</option>
-                                <option>Breaking Bad</option>
-                                <option>Walking Dead</option>
+                            <select type="text" name="tags" defaultValue="default" className="select input input-bordered w-full max-w-xs">
+                                <option value="default" disabled selected>Filter By Tags</option>
+                                <option value="AI">AI</option>
+                                <option value="Education">Education</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Politics">Politics</option>
+                                <option value="Play">Play</option>
+                                <option value="Robot">Robot</option>
+                                <option value="Games">Games</option>
+                                <option value="Football">Football</option>
+                                <option value="Creative">Creative</option>
                             </select>
                         </div>
                     </form>
@@ -97,22 +99,33 @@ const AllArticles = () => {
                         <div className="flex justify-center">
                             <div className="join">
                                 <input name="search" type="text" placeholder="search ....." className="input input-bordered join-item" />
-                                <button className="btn btn-info join-item">Search</button>
+                                <button type='submit ' className="btn btn-info join-item">Search</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div>
-                    <form onSubmit={handleSearch}>
+                    <form>
                         <div className="flex justify-center">
                             <div className="join">
-                                <select className="select input input-bordered w-full max-w-xs">
-                                    <option disabled selected>What is the best TV show?</option>
-                                    <option>Game of Thrones</option>
-                                    <option>Lost</option>
-                                    <option>Breaking Bad</option>
-                                    <option>Walking Dead</option>
+                                <select name="publisher" type="text" defaultValue="default" className="select input input-bordered w-full max-w-xs">
+                                    <option value="default" disabled selected>Filter By Publisher</option>
+                                    <option value="Jimmy Dane">Jimmy Dane</option>
+                                    <option value="Jennifer Wood">Jennifer Wood</option>
+                                    <option value="system">system</option>
+                                    <option value="Robot">Robot</option>
+                                    <option value="Theo Minh Châu">Theo Minh Châu</option>
+                                    <option value="Ukrainska Pravda">Ukrainska Pravda</option>
+                                    <option value="Daniel Deangelo">Daniel Deangelo</option>
+                                    <option value="Reuters">Reuters</option>
+                                    <option value="John Pike">John Pike</option>
+                                    <option value="MarketScreener">MarketScreener</option>
+                                    <option value="RTTNews">RTTNews</option>
+                                    <option value="Kumar Natasha">Kumar Natasha</option>
+                                    <option value="The Philadelphia Inquirer">The Philadelphia Inquirer</option>
+                                    <option value="Presstv">Presstv</option>
                                 </select>
+                                {/* <button type='submit ' className="btn btn-info join-item">Search</button> */}
                             </div>
                         </div>
                     </form>

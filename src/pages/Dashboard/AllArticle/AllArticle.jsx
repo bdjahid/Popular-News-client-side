@@ -5,7 +5,8 @@
 const AllArticle = () => {
     return (
         <div>
-            AllArticle
+            AllArticle publisher
+            AllArticle publisher
         </div>
     );
 };
