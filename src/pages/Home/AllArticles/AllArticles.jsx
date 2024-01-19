@@ -8,7 +8,25 @@ import { useEffect, useState } from 'react';
 
 const AllArticles = () => {
     const [news, setNews] = useState([]);
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState('');
+    // const { count } = useLoaderData();
+    // console.log(count)
+
+    const [itemPerPage, setItemPerPage] = useState(10);
+
+    const [currentPage, setCurrentPage] = useState(0)
+    const [count, setCount] = useState(0)
+
+    const numberOfPages = Math.ceil(count / itemPerPage);
+
+    const pages = [...Array(numberOfPages).keys()];
+
+    useEffect(() => {
+        fetch('http://localhost:5000/newsCount')
+            .then(res => res.json())
+            .then(data => setCount(data.count))
+    }, [])
+
     useEffect(() => {
         fetch(`http://localhost:5000/news?search=${search}`)
             .then(res => res.json())
@@ -25,6 +43,26 @@ const AllArticles = () => {
         const item = form.search.value;
         console.log(item)
         setSearch(item)
+    }
+
+
+
+    const handleItemsPerPages = (e) => {
+        console.log(e.target.value)
+        const val = parseInt(e.target.value)
+        setItemPerPage(val)
+        setCurrentPage(0)
+    }
+
+    const handlePrevPage = () => {
+        if (currentPage < 0) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+    const handleNextPage = () => {
+        if (currentPage < pages.length - 1) {
+            setCurrentPage(currentPage + 1)
+        }
     }
     return (
         <div>
@@ -87,6 +125,24 @@ const AllArticles = () => {
                         paper={paper}
                     ></NewsCard>)
                 }
+            </div>
+            <div className='pagination my-10'>
+                <p>Current Page : {currentPage}</p>
+                <button onClick={handlePrevPage}>prev</button>
+                {
+                    pages.map(page => <button
+                        onClick={() => setCurrentPage(page)}
+                        className={currentPage === page ? 'selected' : undefined}
+                        key={page}
+                    > {page}</button>)
+                }
+                <button onClick={handleNextPage}>next</button>
+                <select onChange={handleItemsPerPages} value={itemPerPage} name="" id="">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
             </div>
         </div>
     );
